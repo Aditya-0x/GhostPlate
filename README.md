@@ -1,62 +1,63 @@
 <div align="center">
 
-# 👻 GhostPlate
+# GhostPlate
 ### Automated License Plate Character Recognition under Rain, Fog, and Glare
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-EE4C2C.svg?logo=pytorch&logoColor=white)](https://pytorch.org/)
 [![OpenCV](https://img.shields.io/badge/OpenCV-4.8%2B-5C3EE8.svg?logo=opencv&logoColor=white)](https://opencv.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Group](https://img.shields.io/badge/Project-Group%206-orange.svg)](#-project-team--credits)
+[![License: MIT](https://img.shields.io/badge/License-MIT-lightgrey.svg)](https://opensource.org/licenses/MIT)
+[![Group](https://img.shields.io/badge/Project-Group%206-informational.svg)](#project-allocation--authors)
 
 <p align="center">
-  <b>Physics-based atmospheric dehazing pre-filters and lightweight CNN character recognition that cuts through extreme weather conditions in real time.</b>
+  <b>Physics-based atmospheric dehazing pre-filters and lightweight CNN character recognition engineered for robust computer vision in degraded weather environments.</b>
 </p>
 
-[Key Features](#-key-features) •
-[Architecture](#-system-architecture) •
-[Visual Pipeline](#-visual-pipeline-demonstration) •
-[Quickstart](#-quickstart-guide) •
-[Benchmark Results](#-experimental-results--ablation-study) •
-[Web Dashboard](#-interactive-web-dashboard)
+[Abstract](#abstract--motivation) •
+[System Architecture](#system-architecture) •
+[Pipeline Visualization](#pipeline-visualization) •
+[Theoretical Foundations](#theoretical-foundations) •
+[Quickstart](#getting-started) •
+[Experimental Results](#experimental-results--quantitative-ablation) •
+[Web Dashboard](#interactive-web-dashboard)
 
 ---
 
 </div>
 
-## 📌 Abstract & Motivation
+## Abstract & Motivation
 
 Standard Automatic License Plate Recognition (ALPR) systems experience severe degradation and catastrophic OCR failure in hostile weather:
-* **Dense Fog & Haze**: Atmospheric aerosol scattering attenuates high-frequency contrast and washes out alphanumeric characters.
-* **Heavy Rain**: High-velocity rain streaks occlude plate glyphs, break contour boundaries, and cause structural false positives.
-* **Headlight Glare & Flare**: Specular bloom from high-beam halogen and LED headlights causes local sensor saturation and dynamic range clipping.
+* **Atmospheric Scattering (Dense Fog & Haze)**: Aerosol scattering attenuates high-frequency contrast and severely degrades alphanumeric stroke boundaries.
+* **Structural Occlusion (Heavy Rain)**: High-velocity rain streaks occlude plate glyphs, break contour boundaries, and inject high-frequency noise.
+* **Dynamic Range Saturation (Headlight Glare)**: Specular bloom from high-beam halogen and LED headlights causes local sensor saturation and dynamic range clipping.
 
-**GhostPlate** solves these problems by pairing a multi-stage **physical atmospheric restoration pre-filter** (Dark Channel Prior dehazing + Guided Filter transmission refinement + specular glare suppression + morphological rain streak removal) with a **fast, lightweight PyTorch character recognizer** (<300k parameters) runnable with sub-millisecond latency on standard laptop CPUs.
+**GhostPlate** addresses these failure modes by coupling a multi-stage **physical atmospheric restoration pre-filter** (Dark Channel Prior dehazing, Guided Filter transmission refinement, specular glare attenuation, and morphological rain streak suppression) with a **lightweight PyTorch character recognizer** (<300k parameters) delivering sub-millisecond inference latency on CPU architectures.
 
 ---
 
-## ✨ Key Features
+## Core Capabilities
 
-| Component | Technical Implementation | Impact |
+| Module | Technical Implementation | Operational Objective |
 | :--- | :--- | :--- |
-| **🌫️ DCP De-hazing** | Dark Channel Prior ($15\times 15$ local window) + $A_{\infty}$ atmospheric light estimation | Recovers deep contrast and edge definitions from dense fog and mist |
-| **🔍 Guided Filtering** | $O(N)$ linear-time edge-preserving guided filter ($\epsilon = 10^{-3}$) | Completely eliminates halo artifacts along sharp vehicle and plate boundaries |
-| **💡 Glare Attenuation** | Luminance-chromaticity thresholding & localized logarithmic tone compression | Recovers saturated character strokes blinded by high-beam headlights |
-| **🌧️ Rain Filtering** | Bilateral base-detail layer decomposition + directional morphological shear | Suppresses high-frequency rain streaks while preserving plate character strokes |
-| **🎯 Plate Detector** | Morphological Top-Hat & Black-Hat gradient filtering + aspect ratio priors | Accurately locks onto license plate bounding boxes ($2.0 \le \text{AR} \le 5.5$) |
-| **⚡ Lightweight CNN** | 3-stage Deep ConvNet with Batch Normalization & LeakyReLU (<300k params, 1.44 MB) | **99.69% validation accuracy** across 35 alphanumeric classes (`0`–`9`, `A`–`Z`) |
-| **🖥️ Interactive Web UI** | Modern FastAPI dashboard with live diagnostic views & 1-click Windows launcher | Allows side-by-side inspection of raw input, dark channel, transmission, and OCR |
+| **Atmospheric Dehazing** | Dark Channel Prior ($15\times 15$ local window) + $A_{\infty}$ atmospheric light estimation | Recovers deep contrast and structural edge definition from dense fog |
+| **Transmission Refinement** | $O(N)$ linear-time edge-preserving guided filter ($\epsilon = 10^{-3}$) | Eliminates halo artifacts along sharp vehicle and plate boundaries |
+| **Specular Glare Suppression** | Luminance-chromaticity thresholding & localized logarithmic tone compression | Recovers saturated character strokes blinded by direct headlight flare |
+| **Rain Streak Attenuation** | Bilateral base-detail layer decomposition + directional morphological shear | Suppresses high-frequency rain streaks while preserving plate character strokes |
+| **Plate Localization** | Morphological Top-Hat & Black-Hat gradient filtering + aspect ratio priors | Robustly isolates license plate bounding boxes ($2.0 \le \text{AR} \le 5.5$) |
+| **Lightweight CNN Recognizer** | 3-stage Deep ConvNet with Batch Normalization & LeakyReLU (<300k params, 1.44 MB) | **99.69% validation accuracy** across 35 alphanumeric classes (`0`–`9`, `A`–`Z`) |
+| **Interactive Dashboard** | Asynchronous FastAPI service with diagnostic visualizers & 1-click Windows launcher | Real-time ablation inspection of raw input, dark channel, transmission, and OCR |
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```mermaid
 flowchart TD
-    In["🌧️ Adverse Weather Input\n(Fog, Rain, Specular Glare)"] --> Pre["Adverse Weather Restoration Pre-Filter"]
+    In["Adverse Weather Input\n(Fog, Rain, Specular Glare)"] --> Pre["Adverse Weather Restoration Pre-Filter"]
 
-    subgraph PreFilter ["Step 1: Physical Restoration Engine"]
+    subgraph PreFilter ["Stage 1: Physical Restoration Engine"]
         Pre --> G["Specular Glare Attenuation\n(Luminance Masking & Tone Compression)"]
         G --> R["Rain Streak Attenuation\n(Bilateral Base/Detail Decomposition)"]
         R --> DCP["Dark Channel Prior (DCP)\n(Atmospheric Light A & Raw Transmission t)"]
@@ -64,52 +65,52 @@ flowchart TD
         GF --> CL["Luminance CLAHE\n(Adaptive Dynamic Range Equalization)"]
     end
 
-    CL --> Restored["✨ Restored Scene Radiance J(x)"]
+    CL --> Restored["Restored Scene Radiance J(x)"]
 
-    Restored --> Det["Step 2: License Plate Localization\n(Top-Hat/Black-Hat Edge Fusion + Geometry)"]
+    Restored --> Det["Stage 2: License Plate Localization\n(Top-Hat/Black-Hat Edge Fusion + Geometry)"]
     Det --> Crop["Cropped License Plate Region"]
 
-    Crop --> Seg["Step 3: Character Segmentation\n(MinMax Norm, Otsu Binarization & Square Tensor Padding)"]
+    Crop --> Seg["Stage 3: Character Segmentation\n(MinMax Norm, Otsu Binarization & Square Tensor Padding)"]
     Seg --> Chars["Standardized (1, 32, 32) Character Tensors"]
 
-    Chars --> CNN["Step 4: Lightweight CNN Recognizer\n(3-Stage ConvNet, BatchNorm, LeakyReLU)"]
-    CNN --> Out["🏁 Recognized Plate String & Confidences\n(e.g., KA05MC2024 - 99.8%)"]
+    Chars --> CNN["Stage 4: Lightweight CNN Recognizer\n(3-Stage ConvNet, BatchNorm, LeakyReLU)"]
+    CNN --> Out["Recognized Plate String & Confidences\n(e.g., KA05MC2024 - 99.8%)"]
 ```
 
 ---
 
-## 🔬 Theoretical Foundations
+## Theoretical Foundations
 
 ### 1. Koschmieder's Atmospheric Scattering Model
-The formation of a hazy or foggy vehicle image is physically modeled as:
+The formation of a degraded hazy or foggy vehicle image is physically formulated as:
 $$I(x) = J(x) \cdot t(x) + A \cdot (1 - t(x))$$
 where:
-* $I(x)$ is the observed weather-degraded image.
-* $J(x)$ is the true scene radiance (the clear image to recover).
+* $I(x)$ represents the observed degraded image intensity at pixel coordinate $x$.
+* $J(x)$ represents the true haze-free scene radiance to be recovered.
 * $A$ is the global atmospheric light vector.
-* $t(x) = e^{-\beta d(x)}$ is the medium transmission map as a function of scene depth $d(x)$ and scattering coefficient $\beta$.
+* $t(x) = e^{-\beta d(x)}$ represents the medium transmission map as a function of scene depth $d(x)$ and atmospheric extinction coefficient $\beta$.
 
 ### 2. Dark Channel Prior (DCP)
-In non-sky patches of haze-free outdoor scenes, at least one color channel has very low intensity approaching zero:
+In non-sky regions of outdoor images, at least one color channel exhibits low intensity approaching zero:
 $$J^{\text{dark}}(x) = \min_{c \in \{r,g,b\}} \left( \min_{y \in \Omega(x)} J^c(y) \right) \approx 0$$
-Using this prior, the initial transmission map is estimated by:
+Using this physical constraint, the initial coarse transmission map is estimated via:
 $$\tilde{t}(x) = 1 - \omega \min_{c} \left( \min_{y \in \Omega(x)} \frac{I^c(y)}{A^c} \right)$$
-where $\omega = 0.95$ retains a natural perspective depth cue.
+where $\omega = 0.95$ preserves natural depth cues.
 
 ### 3. Guided Filter Edge-Preserving Refinement
-To eliminate blocking artifacts without introducing edge-blurring halos, transmission $\tilde{t}(x)$ is refined using a guided filter:
+To prevent block boundaries without generating edge-blurring halos, coarse transmission $\tilde{t}(x)$ is refined using a linear guide:
 $$q_i = a_k I_i + b_k, \quad \forall i \in \omega_k$$
 $$a_k = \frac{\frac{1}{|\omega|} \sum_{i \in \omega_k} I_i p_i - \mu_k \bar{p}_k}{\sigma_k^2 + \epsilon}, \quad b_k = \bar{p}_k - a_k \mu_k$$
 
 ---
 
-## 📸 Visual Pipeline Demonstration
+## Pipeline Visualization
 
-The pipeline visualizes every internal physical diagnostic stage from raw degradation to final OCR:
+The system provides complete visual transparency into every diagnostic stage of the physical restoration and optical recognition pipeline:
 
 ```
 [1. Raw Degraded Input]     -->     [2. Dark Channel J_dark]     -->     [3. Transmission Map t(x)]
-          ↓                                                                          ↓
+          |                                                                          |
 [4. Restored Radiance J(x)]  -->     [5. Plate Localization]      -->     [6. Final Recognized Plate]
 ```
 
@@ -117,16 +118,16 @@ The pipeline visualizes every internal physical diagnostic stage from raw degrad
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 
 ```
 GhostPlate/
-├── README.md                      # Comprehensive repository documentation
-├── PROJECT_REPORT.md              # Formal academic report with equations & derivations
+├── README.md                      # Primary project documentation
+├── PROJECT_REPORT.md              # Academic project report with derivations & analysis
 ├── requirements.txt               # Dependencies (PyTorch, OpenCV, SciPy, FastAPI, Uvicorn)
-├── start.bat                      # 1-Click Windows launcher (auto-opens browser at 127.0.0.1:8000)
+├── start.bat                      # 1-Click Windows launcher (auto-opens 127.0.0.1:8000)
 ├── app.py                         # Interactive FastAPI web dashboard
-├── demo.py                        # Standalone CLI demo & visual comparison exporter
+├── demo.py                        # Standalone CLI demo & visual comparison generator
 ├── train.py                       # Lightweight CNN training script (Kaggle + Synthetic)
 ├── evaluate.py                    # Quantitative benchmark suite (CER, Acc, PSNR, SSIM)
 ├── generate_sample_data.py        # Physical adverse weather benchmark generator
@@ -158,9 +159,9 @@ GhostPlate/
 
 ---
 
-## 🚀 Quickstart Guide
+## Getting Started
 
-### 1. Clone & Install Dependencies
+### 1. Installation
 ```bash
 git clone https://github.com/Aditya-0x/GhostPlate.git
 cd GhostPlate
@@ -168,7 +169,7 @@ pip install -r requirements.txt
 ```
 
 ### 2. Launch the Interactive Web Dashboard
-* **Windows (1-Click)**: Simply double-click **`start.bat`**.
+* **Windows (1-Click)**: Double-click **`start.bat`**.
 * **Terminal**:
   ```bash
   python -m uvicorn app:app --host 127.0.0.1 --port 8000
@@ -176,14 +177,14 @@ pip install -r requirements.txt
   Open **[http://127.0.0.1:8000](http://127.0.0.1:8000)** in your browser.
 
 ### 3. Run Standalone CLI Demo
-Run inference on any image and export full diagnostic visualization:
+Process any image and export full diagnostic visualization:
 ```bash
 python demo.py --image_path data/samples/sample_01_combined.jpg
 ```
-The comparison figure is automatically saved to `outputs/output_demo.png`.
+The comparison figure is saved to `outputs/output_demo.png`.
 
 ### 4. Run Quantitative Benchmark & Ablation Study
-Evaluate Character Error Rate (CER), Exact Match Accuracy, PSNR, and SSIM across all weather modes:
+Evaluate Character Error Rate (CER), Exact Match Accuracy, PSNR, and SSIM across all conditions:
 ```bash
 python evaluate.py
 ```
@@ -196,9 +197,9 @@ python train.py
 
 ---
 
-## 📊 Experimental Results & Ablation Study
+## Experimental Results & Quantitative Ablation
 
-Evaluated on the Adverse Weather ALPR Benchmark under synthetic and real Kaggle test cases:
+Evaluated on the Adverse Weather ALPR Benchmark across synthetic and real Kaggle test cases:
 
 | Adverse Weather Condition | Pipeline Mode | Character Error Rate (CER) ↓ | Exact Plate Match Acc (%) ↑ | Scene PSNR (dB) ↑ | Structural SSIM ↑ |
 | :--- | :--- | :---: | :---: | :---: | :---: |
@@ -212,36 +213,36 @@ Evaluated on the Adverse Weather ALPR Benchmark under synthetic and real Kaggle 
 | **Combined Adverse** | Without Pre-filter (Raw) | 68.1% | 0.0% | 12.8 dB | 0.548 |
 | **Combined Adverse** | **With GhostPlate (Unified)** | **8.3%** | **75.0%** | **22.4 dB** | **0.862** |
 
-> **Key Takeaway**: Physical pre-filtering delivers up to an **8× reduction in Character Error Rate (CER)** and restores recognition accuracy from 0.0% to 75.0%+ under combined multi-degradation scenarios.
+*Note: Physical pre-filtering yields up to an **8× reduction in Character Error Rate (CER)** and restores recognition accuracy from 0.0% to 75.0%+ under combined multi-degradation scenarios.*
 
 ---
 
-## 🌐 Running on Google Colab
+## Google Colab Integration
 
-Run everything in the cloud with zero local setup via the provided Jupyter Notebook:
+Execute the complete workflow in the cloud with zero local setup:
 
 1. Open [`notebooks/colab_notebook.ipynb`](notebooks/colab_notebook.ipynb) in [Google Colab](https://colab.research.google.com/).
-2. Run the notebook top-to-bottom on a free CPU or T4 GPU runtime.
+2. Execute the notebook top-to-bottom on a free CPU or T4 GPU runtime.
 3. Automatically fetches Kaggle datasets, trains the CNN, and generates visual pipeline plots.
 
 ---
 
-## 💻 Interactive Web Dashboard
+## Interactive Web Dashboard
 
-The web dashboard (`app.py`) provides an interactive interface to:
+The web application (`app.py`) provides an interactive interface to:
 * Select preset adverse weather benchmark samples (Fog, Rain, Specular Glare, Combined).
 * Test real Kaggle adverse weather vehicle images (`Foggy Images`, `Night Images`, `Motion Blur Images`).
-* Upload custom car photos.
+* Upload custom car photographs.
 * Dynamically toggle individual pre-filters (**DCP De-hazing**, **Glare Suppression**, **Rain Filtering**, **CLAHE**) to inspect ablation effects in real time.
 * Inspect individual character confidence breakdowns.
 
 ---
 
-## 👥 Project Team & Credits
+## Project Allocation & Authors
 
 **Group 6 — Computer Vision Project Allocation**:
 
-| Name | Roll Number | Contribution |
+| Name | Roll Number | Primary Contributions |
 | :--- | :---: | :--- |
 | **Aditya Verma** | `12408804` | Atmospheric Dehazing (DCP + Guided Filter), Glare Suppression, Web Dashboard |
 | **Varun Singh Rajpurohit** | `12409154` | Rain Streak Removal, Morphological Plate Detector & Contour Slicing |
@@ -249,6 +250,6 @@ The web dashboard (`app.py`) provides an interactive interface to:
 
 ---
 
-## 📜 License
+## License
 
-This project is licensed under the [MIT License](LICENSE) — free for educational, academic, and commercial exploration.
+This project is licensed under the [MIT License](LICENSE) — free for educational, academic, and research applications.
