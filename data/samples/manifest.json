@@ -1,0 +1,104 @@
+[
+  {
+    "id": 1,
+    "ground_truth": "KA05MC2024",
+    "bbox": [
+      186,
+      248,
+      228,
+      63
+    ],
+    "files": {
+      "clean": "sample_01_clean.jpg",
+      "fog": "sample_01_fog.jpg",
+      "rain": "sample_01_rain.jpg",
+      "glare": "sample_01_glare.jpg",
+      "combined": "sample_01_combined.jpg"
+    }
+  },
+  {
+    "id": 2,
+    "ground_truth": "DL01AB8899",
+    "bbox": [
+      186,
+      248,
+      228,
+      63
+    ],
+    "files": {
+      "clean": "sample_02_clean.jpg",
+      "fog": "sample_02_fog.jpg",
+      "rain": "sample_02_rain.jpg",
+      "glare": "sample_02_glare.jpg",
+      "combined": "sample_02_combined.jpg"
+    }
+  },
+  {
+    "id": 3,
+    "ground_truth": "MH12DE4567",
+    "bbox": [
+      186,
+      248,
+      228,
+      63
+    ],
+    "files": {
+      "clean": "sample_03_clean.jpg",
+      "fog": "sample_03_fog.jpg",
+      "rain": "sample_03_rain.jpg",
+      "glare": "sample_03_glare.jpg",
+      "combined": "sample_03_combined.jpg"
+    }
+  },
+  {
+    "id": 4,
+    "ground_truth": "HR26BR1122",
+    "bbox": [
+      186,
+      248,
+      228,
+      63
+    ],
+    "files": {
+      "clean": "sample_04_clean.jpg",
+      "fog": "sample_04_fog.jpg",
+      "rain": "sample_04_rain.jpg",
+      "glare": "sample_04_glare.jpg",
+      "combined": "sample_04_combined.jpg"
+    }
+  },
+  {
+    "id": 5,
+    "ground_truth": "TN09AK7733",
+    "bbox": [
+      186,
+      248,
+      228,
+      63
+    ],
+    "files": {
+      "clean": "sample_05_clean.jpg",
+      "fog": "sample_05_fog.jpg",
+      "rain": "sample_05_rain.jpg",
+      "glare": "sample_05_glare.jpg",
+      "combined": "sample_05_combined.jpg"
+    }
+  },
+  {
+    "id": 6,
+    "ground_truth": "UP32CV9090",
+    "bbox": [
+      186,
+      248,
+      228,
+      63
+    ],
+    "files": {
+      "clean": "sample_06_clean.jpg",
+      "fog": "sample_06_fog.jpg",
+      "rain": "sample_06_rain.jpg",
+      "glare": "sample_06_glare.jpg",
+      "combined": "sample_06_combined.jpg"
+    }
+  }
+]

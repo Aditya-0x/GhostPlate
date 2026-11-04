@@ -1,0 +1,36 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# IDEs and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Kaggle Datasets & Credentials
+# (Raw datasets are large; use download_kaggle_dataset.py to fetch)
+kaggle.json
+.kaggle/
+data/kaggle_chars/
+data/kaggle_plates/
+
+# Temporary / Debug / Scratch / Logs
+*.log
+debug_chars/
+scratch_inspect/
+tmp/
+.ipynb_checkpoints/
