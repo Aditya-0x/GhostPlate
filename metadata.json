@@ -1,0 +1,6 @@
+{
+  "name": "ClearPlate ALPR — Adverse Weather License Plate Recognition",
+  "description": "End-to-end Dark-Channel Prior de-hazing, OpenCV character segmentation, and lightweight PyTorch CNN license plate recognition resilient to rain, fog, and glare.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

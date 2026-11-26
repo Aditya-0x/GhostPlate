@@ -1,0 +1,22 @@
+# Core Computer Vision & Numerical Stack
+numpy>=1.24.0,<2.0.0
+opencv-python-headless>=4.9.0.80
+Pillow>=10.2.0
+scipy>=1.11.4
+
+# Deep Learning (PyTorch — works on CPU and Google Colab T4 CUDA GPU)
+torch>=2.2.0
+torchvision>=0.17.0
+
+# Dataset Acquisition (Kaggle Adverse Weather Vehicle Plates)
+kagglehub>=0.2.9
+kaggle>=1.6.14
+
+# Evaluation, Metrics & Visualization
+scikit-learn>=1.4.0
+matplotlib>=3.8.2
+seaborn>=0.13.2
+tqdm>=4.66.2
+
+# Interactive Dark-Mode Demo Interface
+gradio>=4.36.1
